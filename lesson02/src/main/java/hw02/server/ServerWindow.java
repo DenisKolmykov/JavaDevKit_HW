@@ -1,6 +1,5 @@
 package hw02.server;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ServerWindow extends JFrame {
+public class ServerWindow extends JFrame implements ViewServer {
     public Server server;
     private static final int WIDTH = 400;
     private static final int HEIGHT = 300;
@@ -75,8 +74,8 @@ public class ServerWindow extends JFrame {
         return panel;
     }
 
-
-    public void appendLog(String text){
+    @Override
+    public void appendLog(String text) {
         Date date = new Date();
         log.append(sdf.format(date) + ": " + text + "\n");
     }

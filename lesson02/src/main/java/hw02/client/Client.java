@@ -30,7 +30,7 @@ public class Client {
             showOnWindow(": Вы успешно подключились!\n");
 
             connected = true;
-            server.getServerWindow().appendLog( user.getName() + " подключился к беседе");
+            server.viewServer.appendLog( user.getName() + " подключился к беседе");
 
             String log = server.getHistory();
             if (log != null){

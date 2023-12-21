@@ -2,8 +2,7 @@ package hw02.server;
 
 import hw02.client.Client;
 
-import java.io.FileReader;
-import java.io.FileWriter;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,19 +10,16 @@ import java.util.List;
 
 public class Server {
     private boolean work;
-    private static final String LOG_PATH = "src/main/java/hw02/server/log.txt";
     private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
     private List<Client> clientList = new ArrayList<>();
-    private ServerWindow serverWindow;
+
+    private Repository repository = new FileStorage();
+    public ViewServer viewServer;
 
 
-
-    public Server(ServerWindow serverWindow) {
-        this.serverWindow = serverWindow;
-    }
-    public ServerWindow getServerWindow(){
-        return serverWindow;
+    public Server(ViewServer viewServer) {
+    this.viewServer = viewServer;
     }
 
     public void setIsServerWork(boolean work){
@@ -59,10 +55,11 @@ public class Server {
         if (!work){
             return;
         }
-        serverWindow.appendLog(text);
+        viewServer.appendLog(text);
         answerAll(text);
         Date date = new Date();
-        saveInLog(sdf.format(date) + ": " + text); //не совсем правильно здесь записывать дату создания (нао при создании/отправке сообщения)
+        repository.saveInLog(sdf.format(date) + ": " + text); //не совсем правильно здесь записывать дату создания (нао при создании/отправке сообщения)
+
     }
 
     private void answerAll(String text){
@@ -71,29 +68,7 @@ public class Server {
         }
     }
 
-    private void saveInLog(String text){
-        try (FileWriter writer = new FileWriter(LOG_PATH, true)){
-            writer.write(text);
-            writer.write("\n");
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    public String getHistory() {
-        return readLog();
-    }
-    private String readLog(){
-        StringBuilder stringBuilder = new StringBuilder();
-        try (FileReader reader = new FileReader(LOG_PATH)){
-            int c;
-            while ((c = reader.read()) != -1){
-                stringBuilder.append((char) c);
-            }
-            stringBuilder.delete(stringBuilder.length(), stringBuilder.length());
-            return stringBuilder.toString();
-        } catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
+    public String getHistory(){
+        return repository.getHistory();
     }
 }
