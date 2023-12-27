@@ -11,7 +11,7 @@ public class ProgramTask02 {
         if (firstArr.length == secondArr.length){
             for (int i = 0; i < firstArr.length; i++){
 //                System.out.println(firstArr[i].getClass().getName() + ", " + secondArr[i].getClass().getName());
-                if (firstArr[i].getClass().getName() != secondArr[i].getClass().getName())
+                if (!firstArr[i].getClass().getName().equals(secondArr[i].getClass().getName()))
                     return false;
             }
             return true;
